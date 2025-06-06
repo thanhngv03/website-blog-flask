@@ -1,0 +1,15 @@
+<style>
+    body {
+      padding-top: 4.5rem;
+    }
+    .navbar-brand {
+      font-weight: bold;
+    }
+    footer {
+      margin-top: 5rem;
+      padding: 2rem 0;
+      border-top: 1px solid #ccc;
+      text-align: center;
+      color: #777;
+    }
+  </style>
