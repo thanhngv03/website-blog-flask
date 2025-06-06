@@ -1,16 +1,16 @@
 {% extends 'base.html' %}
+
 {% block title %}Trang chủ{% endblock %}
+
 {% block content %}
-  <h1>Bài viết mới nhất</h1>
-  {% for post in posts %}
-    <div class="card mb-3">
-      <div class="card-body">
-        <h5 class="card-title">{{ post.title }}</h5>
-        <p class="card-text">{{ post.content[:200] }}...</p>
-        <a href="{{ url_for('blog.detail', post_id=post.id) }}" class="btn btn-primary">Xem chi tiết</a>
-      </div>
-    </div>
-  {% else %}
-    <p>Chưa có bài viết nào.</p>
-  {% endfor %}
+<h2>Bài viết gần đây</h2>
+{% if posts %}
+  <ul>
+    {% for post in posts %}
+      <li><a href="{{ url_for('blog.detail', post_id=post.id) }}">{{ post.title }}</a></li>
+    {% endfor %}
+  </ul>
+{% else %}
+  <p>Chưa có bài viết nào.</p>
+{% endif %}
 {% endblock %}

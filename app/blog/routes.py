@@ -1,13 +1,13 @@
-from flask import Blueprint, render_template, redirect, url_for, request
+from flask import render_template, redirect, url_for, request
 from flask_login import login_required, current_user
 from .. import db
 from ..models import Post
 from .forms import PostForm
-
-blog = Blueprint('blog', __name__)
+from . import blog  # ✅ sử dụng blueprint đã tạo từ __init__.py
 
 @blog.route('/')
 def index():
+    print("✅ Đang xử lý route /")
     query = request.args.get('q')
     if query:
         posts = Post.query.filter(Post.title.ilike(f"%{query}%")).all()

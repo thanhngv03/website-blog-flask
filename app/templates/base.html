@@ -1,82 +1,62 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>{% block title %}Blog Cá Nhân{% endblock %}</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <style>
-    body {
-      padding-top: 4.5rem;
-    }
-    .navbar-brand {
-      font-weight: bold;
-    }
-    footer {
-      margin-top: 5rem;
-      padding: 2rem 0;
-      border-top: 1px solid #ccc;
-      text-align: center;
-      color: #777;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <title>{% block title %}Blog Cá Nhân{% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            padding-top: 70px;
+        }
+    </style>
 </head>
 <body>
 
-  <!-- Navigation Bar -->
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-    <div class="container">
-      <a class="navbar-brand" href="{{ url_for('blog.index') }}">Blog Cá Nhân</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-              aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ms-auto">
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+  <div class="container">
+    <a class="navbar-brand" href="{{ url_for('blog.index') }}">Blog Cá Nhân</a>
+    <div class="collapse navbar-collapse">
+      <ul class="navbar-nav ms-auto">
+        {% if current_user.is_authenticated %}
           <li class="nav-item">
-            <a class="nav-link" href="{{ url_for('blog.index') }}">Trang chủ</a>
+            <a class="nav-link" href="{{ url_for('blog.create') }}">Đăng bài</a>
           </li>
-          {% if current_user.is_authenticated %}
           <li class="nav-item">
             <a class="nav-link" href="{{ url_for('auth.logout') }}">Đăng xuất</a>
           </li>
-          {% else %}
+        {% else %}
           <li class="nav-item">
             <a class="nav-link" href="{{ url_for('auth.login') }}">Đăng nhập</a>
           </li>
-          {% endif %}
-        </ul>
-      </div>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('auth.register') }}">Đăng ký</a>
+          </li>
+        {% endif %}
+      </ul>
     </div>
-  </nav>
+  </div>
+</nav>
 
-  <!-- Main Container -->
-  <main class="container">
-    <!-- Flash Messages -->
-    {% with messages = get_flashed_messages() %}
+<!-- Nội dung -->
+<div class="container mt-4">
+    {% with messages = get_flashed_messages(with_categories=true) %}
       {% if messages %}
-        {% for message in messages %}
-          <div class="alert alert-info alert-dismissible fade show" role="alert">
+        {% for category, message in messages %}
+          <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
             {{ message }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
           </div>
         {% endfor %}
       {% endif %}
     {% endwith %}
+    
+    {% block content %}
+    {% endblock %}
+</div>
 
-    <!-- Dynamic Content -->
-    {% block content %}{% endblock %}
-  </main>
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
-  <!-- Footer -->
-  <footer>
-    <div class="container">
-      <p>&copy; {{ current_year | default(2025) }} Blog Cá Nhân. Tất cả các quyền được bảo lưu.</p>
-    </div>
-  </footer>
-
-  <!-- Bootstrap JS -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
