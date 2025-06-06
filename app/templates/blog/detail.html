@@ -12,15 +12,16 @@
 
         <a href="{{ url_for('blog.index') }}" class="btn btn-secondary">← Quay lại trang chủ</a>
 
-        {# Tuỳ chọn: Thêm nút sửa và xoá nếu cần #}
-        {# 
+        <!-- Hiển thị nút Chỉnh sửa và Xoá nếu là tác giả -->
         {% if current_user.is_authenticated and post.user_id == current_user.id %}
             <a href="{{ url_for('blog.edit', post_id=post.id) }}" class="btn btn-primary ms-2">Chỉnh sửa</a>
+
             <form action="{{ url_for('blog.delete', post_id=post.id) }}" method="POST" class="d-inline">
-                <button type="submit" class="btn btn-danger ms-2">Xóa</button>
+                <button type="submit" class="btn btn-danger ms-2" onclick="return confirm('Bạn có chắc chắn muốn xoá bài viết này?');">
+                    Xoá
+                </button>
             </form>
         {% endif %}
-        #}
     </div>
 </div>
 
