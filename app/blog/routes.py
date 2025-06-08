@@ -1,4 +1,4 @@
-from flask import render_template, redirect, url_for, request
+from flask import render_template, redirect, url_for, request, flash
 from flask_login import login_required, current_user
 from .. import db
 from ..models import Post
@@ -10,10 +10,14 @@ def index():
     print("✅ Đang xử lý route /")
     query = request.args.get('q')
     if query:
-        posts = Post.query.filter(Post.title.ilike(f"%{query}%")).all()
+        posts = Post.query.filter(
+            (Post.title.ilike(f"%{query}%")) |  # Dùng toán tử | để tìm trong tiêu đề hoặc nội dung
+            (Post.content.ilike(f"%{query}%"))
+            ).all() #ilike() giúp tìm kiếm không phân biệt hoa/thường
     else:
         posts = Post.query.all()
-    return render_template('blog/index.html', posts=posts)
+        
+    return render_template('blog/index.html', posts=posts, query=query)
 
 @blog.route('/create', methods=['GET', 'POST'])
 @login_required

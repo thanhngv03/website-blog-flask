@@ -16,6 +16,13 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
   <div class="container">
     <a class="navbar-brand" href="{{ url_for('blog.index') }}">Blog Cá Nhân</a>
+
+    <!-- Thêm thanh tìm kiếm -->
+    <form class="d-flex ms-auto" method="GET" action="{{ url_for('blog.index') }}">
+      <input class="form-control me-2" type="search" placeholder="Tìm bài..." name="q" value="{{ request.args.get('q', '') }}">
+      <button class="btn btn-outline-light" type="submit">Tìm</button>
+    </form>
+
     <div class="collapse navbar-collapse">
       <ul class="navbar-nav ms-auto">
         {% if current_user.is_authenticated %}
