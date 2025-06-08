@@ -11,7 +11,7 @@ login_manager.login_view = 'auth.login'
 def create_app():
     app = Flask(__name__)
     app.config.from_object(Config)
-    print("✅ App config loaded from Config")
+    print("Cấu hình ứng dụng đã được nạp từ Config")
     # Khởi tạo db và login manager với app
     db.init_app(app)
     login_manager.init_app(app)
@@ -19,11 +19,11 @@ def create_app():
     # Đăng ký blueprint đăng nhập/đăng ký
     from .auth import auth as auth_blueprint
     app.register_blueprint(auth_blueprint, url_prefix='/auth')
-    print("✅ Auth blueprint registered")
+    print("đã đăng ký blueprint")
      
     # Đăng ký blueprint blog (trang chủ không có prefix)
     from .blog import blog as blog_blueprint
     app.register_blueprint(blog_blueprint)
-    print("✅ Blog blueprint registered")
+    print("✅ đăng ký blueprint blog")
 
     return app

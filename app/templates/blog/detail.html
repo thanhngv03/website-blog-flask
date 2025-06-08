@@ -6,6 +6,9 @@
     <div class="col-md-8">
         <h2 class="mb-4">{{ post.title }}</h2>
 
+        {% if post.image %}
+            <img src="{{ url_for('static', filename='uploads/' + post.image) }}" class="img-fluid mb-3" alt="Ảnh bài viết">
+        {% endif %}
         <div class="mb-4">
             <p>{{ post.content }}</p>
         </div>

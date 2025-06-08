@@ -4,6 +4,8 @@ from .. import db
 from ..models import Post
 from .forms import PostForm
 from . import blog  # ✅ sử dụng blueprint đã tạo từ __init__.py
+import os
+from werkzeug.utils import secure_filename
 
 @blog.route('/')
 def index():
@@ -23,8 +25,23 @@ def index():
 @login_required
 def create():
     form = PostForm()
+    upload_dir = os.path.join('app', 'static', 'uploads')
+    os.makedirs(upload_dir, exist_ok=True)
     if form.validate_on_submit():
-        post = Post(title=form.title.data, content=form.content.data, user_id=current_user.id)
+        image_filename = None
+        
+        if form.image.data: 
+            filename =secure_filename(form.image.data.filename)
+            image_path = os.path.join(upload_dir, filename)
+            form.image.data.save(image_path)
+            image_filename = filename
+            
+        post = Post(
+            title=form.title.data,
+            content=form.content.data,
+            user_id=current_user.id,
+            image=image_filename  # Lưu tên file hình ảnh vào cơ sở dữ liệu
+        )
         db.session.add(post)
         db.session.commit()
         return redirect(url_for('blog.index'))
