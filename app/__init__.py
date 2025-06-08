@@ -2,6 +2,7 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from config import Config
+from flask_migrate import Migrate
 
 # Khởi tạo đối tượng DB và LoginManager toàn cục
 db = SQLAlchemy()
@@ -15,6 +16,7 @@ def create_app():
     # Khởi tạo db và login manager với app
     db.init_app(app)
     login_manager.init_app(app)
+    migrate = Migrate(app, db)  
 
     # Đăng ký blueprint đăng nhập/đăng ký
     from .auth import auth as auth_blueprint

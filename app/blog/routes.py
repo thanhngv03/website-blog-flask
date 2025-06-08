@@ -3,13 +3,13 @@ from flask_login import login_required, current_user
 from .. import db
 from ..models import Post
 from .forms import PostForm
-from . import blog  # ✅ sử dụng blueprint đã tạo từ __init__.py
+from . import blog  # sử dụng blueprint đã tạo từ __init__.py
 import os
 from werkzeug.utils import secure_filename
 
 @blog.route('/')
 def index():
-    print("✅ Đang xử lý route /")
+    print(" Đang xử lý route /")
     query = request.args.get('q')
     if query:
         posts = Post.query.filter(
