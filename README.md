@@ -12,3 +12,6 @@ flask --app run:create_app shell
 >>> db.drop_all()
 >>> db.create_all()
 >>> exit()
+
+#upgrade db
+flask --app run:create_app db upgrade 

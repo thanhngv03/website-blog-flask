@@ -26,6 +26,6 @@ def create_app():
     # Đăng ký blueprint blog (trang chủ không có prefix)
     from .blog import blog as blog_blueprint
     app.register_blueprint(blog_blueprint)
-    print("✅ đăng ký blueprint blog")
+    print("đăng ký blueprint blog")
 
     return app
